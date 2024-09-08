@@ -6,6 +6,6 @@
 
 <script setup>
 defineOptions({
-  name: "IndexPage",
+  name: "EntriesPage",
 });
 </script>
