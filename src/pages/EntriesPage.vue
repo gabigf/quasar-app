@@ -19,6 +19,32 @@
         </q-item>
       </q-list>
     </div>
+
+    <q-footer class="bg-transparent">
+      <div class="row q-mb-sm q-px-md q-py-sm shadow-up-3">
+        <div class="col text-grey-7 text-h6">Balance:</div>
+        <div class="col text-grey-7 text-h6 text-right">+ $ 3,999.99</div>
+      </div>
+      <div class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary">
+        <div class="col">
+          <q-input outlined placeholder="Name" bg-color="white" dense />
+        </div>
+        <div class="col">
+          <q-input
+            outlined
+            placeholder="Amount"
+            bg-color="white"
+            dense
+            input-class="text-right"
+            type="number"
+            step="0.01"
+          />
+        </div>
+        <div class="col col-auto">
+          <q-btn round color="primary" icon="add" />
+        </div>
+      </div>
+    </q-footer>
   </q-page>
 </template>
 
