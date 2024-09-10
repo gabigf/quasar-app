@@ -9,7 +9,6 @@
           icon="menu"
           aria-label="Menu"
           @click="toggleLeftDrawer"
-          v-if="isMobile"
         />
 
         <q-toolbar-title>
@@ -26,6 +25,8 @@
       show-if-above
       bordered
       class="bg-primary"
+      :width="250"
+      :breakpoint="767"
     >
       <q-list>
         <NavLink v-for="link in linksList" :key="link.title" v-bind="link" />
