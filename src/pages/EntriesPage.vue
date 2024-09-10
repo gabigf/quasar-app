@@ -3,11 +3,11 @@
     <div class="q-pa-md">
       <q-list bordered separator>
         <q-item v-for="entry in entries" :key="entry.id">
-          <q-item-section>
+          <q-item-section :class="useAmountColorClass(entry.amount)">
             <q-item-label>{{ entry.name }}</q-item-label>
           </q-item-section>
 
-          <q-item-section side
+          <q-item-section side :class="useAmountColorClass(entry.amount)"
             >{{ useCurrencyFormatter(entry.amount) }}
           </q-item-section>
         </q-item>
@@ -18,7 +18,8 @@
 
 <script setup>
 import { ref } from "vue";
-import { useCurrencyFormatter } from "../use/useCurrencyFormatter";
+import { useCurrencyFormatter } from "../use/useCurrencyFormatter.js";
+import { useAmountColorClass } from "../use/useAmountColorClass.js";
 
 defineOptions({
   name: "EntriesPage",
