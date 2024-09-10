@@ -23,7 +23,12 @@
     <q-footer class="bg-transparent">
       <div class="row q-mb-sm q-px-md q-py-sm shadow-up-3">
         <div class="col text-grey-7 text-h6">Balance:</div>
-        <div class="col text-grey-7 text-h6 text-right">+ $ 3,999.99</div>
+        <div
+          :class="useAmountColorClass(balance)"
+          class="col text-h6 text-right"
+        >
+          {{ useCurrencyFormatter(balance) }}
+        </div>
       </div>
       <div class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary">
         <div class="col">
@@ -49,7 +54,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useCurrencyFormatter } from "../use/useCurrencyFormatter.js";
 import { useAmountColorClass } from "../use/useAmountColorClass.js";
 
@@ -79,4 +84,10 @@ const entries = ref([
     amount: 0,
   },
 ]);
+
+const balance = computed(() => {
+  return entries.value.reduce((acc, { amount }) => {
+    return acc + amount;
+  }, 0);
+});
 </script>
