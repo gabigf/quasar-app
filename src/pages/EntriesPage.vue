@@ -30,12 +30,23 @@
           {{ useCurrencyFormatter(balance) }}
         </div>
       </div>
-      <div class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary">
+      <q-form
+        @submit="addEntry"
+        class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary"
+      >
         <div class="col">
-          <q-input outlined placeholder="Name" bg-color="white" dense />
+          <q-input
+            ref="nameRef"
+            v-model="entryForm.name"
+            outlined
+            placeholder="Name"
+            bg-color="white"
+            dense
+          />
         </div>
         <div class="col">
           <q-input
+            v-model.number="entryForm.amount"
             outlined
             placeholder="Amount"
             bg-color="white"
@@ -46,21 +57,24 @@
           />
         </div>
         <div class="col col-auto">
-          <q-btn round color="primary" icon="add" />
+          <q-btn round color="primary" icon="add" type="submit" />
         </div>
-      </div>
+      </q-form>
     </q-footer>
   </q-page>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 import { useCurrencyFormatter } from "../use/useCurrencyFormatter.js";
 import { useAmountColorClass } from "../use/useAmountColorClass.js";
+import { uid } from "quasar";
 
 defineOptions({
   name: "EntriesPage",
 });
+
+const nameRef = ref(null);
 
 const entries = ref([
   {
@@ -90,4 +104,24 @@ const balance = computed(() => {
     return acc + amount;
   }, 0);
 });
+
+const defaultEntryForm = {
+  name: "",
+  amount: null,
+};
+
+const entryForm = reactive({
+  ...defaultEntryForm,
+});
+
+const resetEntryForm = () => {
+  Object.assign(entryForm, defaultEntryForm);
+  nameRef.value.focus();
+};
+
+const addEntry = () => {
+  const newEntry = Object.assign({}, entryForm, { id: uid() });
+  entries.value.push(newEntry);
+  resetEntryForm();
+};
 </script>
