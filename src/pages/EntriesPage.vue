@@ -2,21 +2,31 @@
   <q-page>
     <div class="q-pa-md">
       <q-list bordered separator>
-        <q-item v-for="entry in entries" :key="entry.id">
-          <q-item-section
-            :class="useAmountColorClass(entry.amount)"
-            class="text-weight-bold"
-          >
-            <q-item-label>{{ entry.name }}</q-item-label>
-          </q-item-section>
+        <q-slide-item
+          right-color="negative"
+          v-for="entry in entries"
+          :key="entry.id"
+          @right="onRight($event, entry.id)"
+        >
+          <template v-slot:right>
+            <q-icon name="delete" />
+          </template>
+          <q-item>
+            <q-item-section
+              :class="useAmountColorClass(entry.amount)"
+              class="text-weight-bold"
+            >
+              <q-item-label>{{ entry.name }}</q-item-label>
+            </q-item-section>
 
-          <q-item-section
-            side
-            :class="useAmountColorClass(entry.amount)"
-            text-weight-bold
-            >{{ useCurrencyFormatter(entry.amount) }}
-          </q-item-section>
-        </q-item>
+            <q-item-section
+              side
+              :class="useAmountColorClass(entry.amount)"
+              text-weight-bold
+              >{{ useCurrencyFormatter(entry.amount) }}
+            </q-item-section>
+          </q-item>
+        </q-slide-item>
       </q-list>
     </div>
 
@@ -68,13 +78,14 @@
 import { ref, computed, reactive } from "vue";
 import { useCurrencyFormatter } from "../use/useCurrencyFormatter.js";
 import { useAmountColorClass } from "../use/useAmountColorClass.js";
-import { uid } from "quasar";
+import { useQuasar, uid, QItemLabel, colors } from "quasar";
 
 defineOptions({
   name: "EntriesPage",
 });
 
 const nameRef = ref(null);
+const $q = useQuasar();
 
 const entries = ref([
   {
@@ -123,5 +134,36 @@ const addEntry = () => {
   const newEntry = Object.assign({}, entryForm, { id: uid() });
   entries.value.push(newEntry);
   resetEntryForm();
+};
+
+const deleteEntry = (entryId) => {
+  const index = entries.value.findIndex((entry) => entry.id === entryId);
+  entries.value.splice(index, 1);
+};
+
+const onRight = ({ reset }, entryId) => {
+  $q.dialog({
+    dark: true,
+    title: "Delete Entry",
+    message: "Are you sure you want to delete this entry?",
+    cancel: true,
+    persistent: true,
+    ok: {
+      label: "Delete",
+      color: "negative",
+      noCaps: true,
+    },
+    cancel: {
+      color: "primary",
+      noCaps: true,
+    },
+  })
+    .onOk(() => {
+      deleteEntry(entryId);
+    })
+
+    .onCancel(() => {
+      reset();
+    });
 };
 </script>
