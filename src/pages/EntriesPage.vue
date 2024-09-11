@@ -6,7 +6,7 @@
           right-color="negative"
           v-for="entry in entries"
           :key="entry.id"
-          @right="onRight($event, entry.id)"
+          @right="onRight($event, entry)"
         >
           <template v-slot:right>
             <q-icon name="delete" />
@@ -42,7 +42,7 @@
       </div>
       <q-form
         @submit="addEntry"
-        class="row q-px-sm q-pb-sm q-col-gutter-sm bg-primary"
+        class="row q-pr-sm q-pb-sm q-col-gutter-sm bg-primary"
       >
         <div class="col">
           <q-input
@@ -79,6 +79,7 @@ import { ref, computed, reactive } from "vue";
 import { useCurrencyFormatter } from "../use/useCurrencyFormatter.js";
 import { useAmountColorClass } from "../use/useAmountColorClass.js";
 import { useQuasar, uid, QItemLabel, colors } from "quasar";
+import DOMPurify from "dompurify";
 
 defineOptions({
   name: "EntriesPage",
@@ -141,11 +142,19 @@ const deleteEntry = (entryId) => {
   entries.value.splice(index, 1);
 };
 
-const onRight = ({ reset }, entryId) => {
+const onRight = ({ reset }, entry) => {
+  const unsanitizedHtml = `
+  <div>Are you sure you want to delete this entry?</div>
+  <div class="text-bold q-mt-md ${useAmountColorClass(entry.amount)}" >
+    ${entry.name}: ${useCurrencyFormatter(entry.amount)}
+  </div>
+  `;
+  const sanitizedHtml = DOMPurify.sanitize(unsanitizedHtml);
   $q.dialog({
     dark: true,
     title: "Delete Entry",
-    message: "Are you sure you want to delete this entry?",
+    html: true,
+    message: sanitizedHtml,
     cancel: true,
     persistent: true,
     ok: {
@@ -159,7 +168,7 @@ const onRight = ({ reset }, entryId) => {
     },
   })
     .onOk(() => {
-      deleteEntry(entryId);
+      deleteEntry(entry.id);
     })
 
     .onCancel(() => {
