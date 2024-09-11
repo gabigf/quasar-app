@@ -78,15 +78,15 @@
 import { ref, computed, reactive } from "vue";
 import { useCurrencyFormatter } from "../use/useCurrencyFormatter.js";
 import { useAmountColorClass } from "../use/useAmountColorClass.js";
-import { useQuasar, uid, QItemLabel, colors } from "quasar";
+import { useQuasar, uid, QItemLabel, Notify } from "quasar";
 import DOMPurify from "dompurify";
 
 defineOptions({
   name: "EntriesPage",
 });
 
-const nameRef = ref(null);
 const $q = useQuasar();
+const nameRef = ref(null);
 
 const entries = ref([
   {
@@ -117,6 +117,8 @@ const balance = computed(() => {
   }, 0);
 });
 
+// Entry Form
+
 const defaultEntryForm = {
   name: "",
   amount: null,
@@ -140,7 +142,16 @@ const addEntry = () => {
 const deleteEntry = (entryId) => {
   const index = entries.value.findIndex((entry) => entry.id === entryId);
   entries.value.splice(index, 1);
+  $q.notify({
+    position: "top",
+    message: "Entry deleted",
+    color: "positive",
+    icon: "check",
+    timeout: 500,
+  });
 };
+
+// Slide item
 
 const onRight = ({ reset }, entry) => {
   const unsanitizedHtml = `
