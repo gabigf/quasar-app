@@ -1,33 +1,13 @@
 <template>
-  <q-layout view="hHh lpR lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          <div class="absolute-center">
-            Money manager
-            <q-icon name="savings" size="md" />
-          </div>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-header>
-
+  <q-layout view="hHh lpR fFf">
     <q-drawer
-      v-model="leftDrawerOpen"
       show-if-above
       bordered
       class="bg-primary"
       :width="250"
       :breakpoint="767"
     >
+      <h4 class="text-h4 text-white">finance</h4>
       <q-list>
         <NavLink v-for="link in linksList" :key="link.title" v-bind="link" />
       </q-list>
@@ -40,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+// import { ref } from "vue";
 import NavLink from "components/NavLink.vue";
 
 defineOptions({
@@ -49,9 +29,14 @@ defineOptions({
 
 const linksList = [
   {
-    title: "Entries",
+    title: "Overview",
     icon: "savings",
     link: "/",
+  },
+  {
+    title: "Transactions",
+    icon: "savings",
+    link: "/transactions",
   },
   {
     title: "Settings",
@@ -60,10 +45,9 @@ const linksList = [
   },
 ];
 
-const leftDrawerOpen = ref(false);
-const isMobile = ref(false);
+// const leftDrawerOpen = ref(false);
 
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
+// function toggleLeftDrawer() {
+//   leftDrawerOpen.value = !leftDrawerOpen.value;
+// }
 </script>

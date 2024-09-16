@@ -31,15 +31,7 @@
     </div>
 
     <q-footer class="bg-transparent">
-      <div class="row q-mb-sm q-px-md q-py-sm shadow-up-3">
-        <div class="col text-grey-7 text-h6">Balance:</div>
-        <div
-          :class="useAmountColorClass(balance)"
-          class="col text-h6 text-right"
-        >
-          {{ useCurrencyFormatter(balance) }}
-        </div>
-      </div>
+      <BalanceCard :transactions="entries" />
       <q-form
         @submit="addEntry"
         class="row q-pr-sm q-pb-sm q-col-gutter-sm bg-primary"
@@ -75,11 +67,12 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from "vue";
+import { ref, reactive } from "vue";
 import { useCurrencyFormatter } from "../use/useCurrencyFormatter.js";
 import { useAmountColorClass } from "../use/useAmountColorClass.js";
 import { useQuasar, uid, QItemLabel, Notify } from "quasar";
 import DOMPurify from "dompurify";
+import BalanceCard from "src/components/BalanceCard.vue";
 
 defineOptions({
   name: "EntriesPage",
@@ -111,11 +104,11 @@ const entries = ref([
   },
 ]);
 
-const balance = computed(() => {
-  return entries.value.reduce((acc, { amount }) => {
-    return acc + amount;
-  }, 0);
-});
+// const balance = computed(() => {
+//   return entries.value.reduce((acc, { amount }) => {
+//     return acc + amount;
+//   }, 0);
+// });
 
 // Entry Form
 
