@@ -7,7 +7,7 @@
       :width="250"
       :breakpoint="767"
     >
-      <h4 class="text-h4 text-white">finance</h4>
+      <h4 class="text-h4 text-bold text-white q-ma-lg">finance</h4>
       <q-list>
         <NavLink v-for="link in linksList" :key="link.title" v-bind="link" />
       </q-list>
@@ -30,12 +30,12 @@ defineOptions({
 const linksList = [
   {
     title: "Overview",
-    icon: "savings",
+    icon: "home",
     link: "/",
   },
   {
     title: "Transactions",
-    icon: "savings",
+    icon: "import_export",
     link: "/transactions",
   },
   {
