@@ -1,5 +1,8 @@
 # Money Manager
+
 This project is a simple money tracking site where users can input the name and amount of each transaction, and view the total balance at the bottom of the page. I built this project to explore and learn the Quasar UI library, utilizing its components to create a smooth and responsive user interface.
+<br>
+<a href="https://money-manager-ruddy.vercel.app/#/">Live site</a>
 
 # Tech Stack
 <b>Frontend</b>: Quasar Framework (Vue.js)
