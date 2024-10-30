@@ -13,7 +13,7 @@ This project is a simple money tracking site where users can input the name and 
 ![Screenshot 2024-10-24 at 7 28 44 PM](https://github.com/user-attachments/assets/3fb429ee-74de-49e9-ac09-345a455cafc7)
 
 # Improvements to be made
-- Create a DB to store the transations
+- Create a DB to store the transactions
 - Move what is in the current home view to the transactions page
 - Make transaction names and amounts editable
 - Make transactions sortable
